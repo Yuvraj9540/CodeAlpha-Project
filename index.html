@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Music Player</title>
+  <style>
+    /* General Styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff7eb3, #ff758c);
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+
+    .music-player {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(15px);
+      width: 400px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 28px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .music-info {
+      margin-bottom: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    button {
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    #play-btn {
+      background: #28a745;
+      color: white;
+    }
+
+    #play-btn:hover {
+      background: #218838;
+      transform: scale(1.1);
+    }
+
+    #pause-btn {
+      background: #dc3545;
+      color: white;
+    }
+
+    #pause-btn:hover {
+      background: #c82333;
+      transform: scale(1.1);
+    }
+
+    .progress-bar {
+      margin-top: 20px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      height: 10px;
+      overflow: hidden;
+    }
+
+    .progress {
+      width: 0;
+      height: 100%;
+      background: #4caf50;
+      transition: width 0.2s linear;
+    }
+
+    select {
+      margin-top: 15px;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: none;
+      background: #ffffff;
+      color: #333;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <!-- HTML Structure -->
+  <div class="music-player">
+    <h1>🎶 Stylish Music Player</h1>
+    <div class="music-info">
+      <p id="song-title">Select a Song</p>
+    </div>
+    <audio id="audio"></audio>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <div class="controls">
+      <button id="play-btn">▶️ Play</button>
+      <button id="pause-btn">⏸️ Pause</button>
+    </div>
+    <select id="song-selector">
+      <option value="" disabled selected>Select a Song</option>
+      <option value="https://www.bensound.com/bensound-music/bensound-clearday.mp3">Clear Day</option>
+      <option value="https://www.bensound.com/bensound-music/bensound-energy.mp3">Energy</option>
+      <option value="https://www.bensound.com/bensound-music/bensound-happiness.mp3">Happiness</option>
+    </select>
+    <footer>
+      Made with ❤️ for Music Lovers
+    </footer>
+  </div>
+
+  <script>
+    // JavaScript for Functionality
+    const playButton = document.getElementById("play-btn");
+    const pauseButton = document.getElementById("pause-btn");
+    const audio = document.getElementById("audio");
+    const songTitle = document.getElementById("song-title");
+    const songSelector = document.getElementById("song-selector");
+    const progressBar = document.getElementById("progress");
+
+    // Update the audio source and song title when a song is selected
+    songSelector.addEventListener("change", (event) => {
+      audio.src = event.target.value;
+      songTitle.textContent = `Now Playing: ${event.target.options[event.target.selectedIndex].text}`;
+      audio.pause();
+      progressBar.style.width = "0%";
+    });
+
+    // Play button functionality
+    playButton.addEventListener("click", () => {
+      if (audio.src) {
+        audio.play();
+      } else {
+        alert("Please select a song first!");
+      }
+    });
+
+    // Pause button functionality
+    pauseButton.addEventListener("click", () => {
+      audio.pause();
+    });
+
+    // Update progress bar as the song plays
+    audio.addEventListener("timeupdate", () => {
+      const progressPercent = (audio.currentTime / audio.duration) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+    });
+
+    // Reset progress bar when the song ends
+    audio.addEventListener("ended", () => {
+      progressBar.style.width = "0%";
+    });
+  </script>
+</body>
+</html>
